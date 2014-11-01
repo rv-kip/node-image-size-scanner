@@ -1,0 +1,28 @@
+{
+  "name": "node-image-size-scanner",
+  "version": "0.0.1",
+  "description": "Reports the image file sizes for a given URL and optionally a minimum file size.",
+  "main": "check.js",
+  "author": "Kip Gebhardt <kgebhardt23@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rv-kip/node-image-size-scanner/issues"
+  },
+  "dependencies": {
+    "colors": "^1.0.2",
+    "filesize": "^2.0.4",
+    "image-scraper": "^0.1.2",
+    "request": "^2.45.0",
+    "sprintf-js": "^1.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rv-kip/node-image-size-scanner.git"
+  },
+  "homepage": "https://github.com/rv-kip/node-image-size-scanner",
+    "keywords": [
+      "filesize",
+      "scanner",
+      "utility"
+  ]
+}
