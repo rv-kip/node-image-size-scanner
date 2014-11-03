@@ -6,8 +6,8 @@ var Scraper = require('image-scraper'),
     sprintf=require("sprintf-js").sprintf;
 
 if (process.argv.length < 3) {
-    console.log("Usage: node check URL [min bytes for alert]");
-    console.log("Ex: " + colors.grey("node check http://www.google.com 50k"));
+    console.log("Usage: image_check URL [min bytes for alert]");
+    console.log("Ex: " + colors.grey("image_check http://www.google.com 50k"));
     process.exit(1);
 }
 
