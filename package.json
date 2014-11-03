@@ -27,5 +27,5 @@
   ],
   "preferGlobal": true,
   "main":         "image_check.js",
-  "bin":          { "rotting": "./image_check.js" }
+  "bin":          { "image_check": "./image_check.js" }
 }
