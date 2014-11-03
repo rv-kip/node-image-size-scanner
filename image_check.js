@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Get image sizes for images on a given url
 var Scraper = require('image-scraper'),
     request = require('request'),

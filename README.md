@@ -3,13 +3,13 @@ node-image-size-scanner
 Reports the image file sizes for a given URL and optionally a minimum file size.
 
 ## Installation ##
-`npm install node-image-size-scanner`
+`npm install -g node-image-size-scanner`
 
 ## Usage ##
 ```
 $ node check
-Usage: node check URL [max bytes allowed]
-Ex: node check http://www.google.com 50k
+Usage: image_check URL [max bytes allowed]
+Ex: image_check http://www.google.com 50k
 
 $ node check www.google.com 1k
 Image files > 1.00 kB (1000 bytes)
