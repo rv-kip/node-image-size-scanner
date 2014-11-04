@@ -9,7 +9,7 @@ var Scraper = require('image-scraper'),
 
 if (process.argv.length < 3) {
     console.log("Usage: image_check URL [min bytes for alert]");
-    console.log("Ex: " + colors.grey("image_check http://www.google.com 50k"));
+    console.log("Ex: " + colors.grey("image_check http://www.google.com 1k"));
     process.exit(1);
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "node-image-size-scanner",
-  "version": "0.0.7",
-  "description": "Reports the image file sizes for a given URL and optionally a minimum file size.",
+  "version": "0.0.8",
+  "description": "For a given URL, report image file sizes and paths with optional minimum file size to report on.",
   "main": "image_check.js",
   "author": "Kip Gebhardt <kgebhardt23@gmail.com>",
   "license": "ISC",
