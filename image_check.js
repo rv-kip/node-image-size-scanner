@@ -21,6 +21,10 @@ if (typeof(max_size_bytes) === "string" && max_size_bytes.match(/k/i)){
     max_size_bytes = +max_size_bytes * 1000;
 }
 
+if (!test_url.match(/http/i) && !test_url.match(/https/i)) {
+    test_url = "http://" + test_url;
+}
+
 if (max_size_bytes) {
     console.log(colors.bold("Image files >" + Filesize(max_size_bytes) + " (" + max_size_bytes + " bytes)"));
 }
