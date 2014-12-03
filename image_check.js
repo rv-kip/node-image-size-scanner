@@ -5,20 +5,29 @@ var Scraper = require('image-scraper'),
     request = require('request'),
     Filesize = require('filesize'),
     colors = require('colors/safe'),
-    sprintf=require("sprintf-js").sprintf;
+    sprintf=require("sprintf-js").sprintf,
+    argv = require('minimist')(process.argv.slice(2));
 
-if (process.argv.length < 3) {
-    console.log("Usage: image_check URL [min bytes for alert]");
-    console.log("Ex: " + colors.grey("image_check http://www.google.com 1k"));
+var usage = "Usage: image_check -u URL [-b MIN_BYTES_TO_ALERT_ON]\n" +
+            "Ex: " + colors.grey("image_check -u http://www.google.com -b 1k");
+
+if (!argv.u) {
+    console.log(usage);
     process.exit(1);
 }
 
-var test_url = process.argv[2],
-    max_size_bytes = process.argv[3] || 0;
+var test_url = argv.u,
+    max_size_bytes = argv.b || 0;
 
 if (typeof(max_size_bytes) === "string" && max_size_bytes.match(/k/i)){
     max_size_bytes = max_size_bytes.replace(/k/i, "");
     max_size_bytes = +max_size_bytes * 1000;
+}
+
+if (isNaN(max_size_bytes)){
+    console.log("Invalid number of bytes: " + max_size_bytes + "\n");
+    console.log(usage);
+    process.exit(1);
 }
 
 if (!test_url.match(/http/i) && !test_url.match(/https/i)) {
@@ -33,6 +42,10 @@ var scraper = new Scraper (test_url);
 
 scraper.on("image", function(image){
     processImage(image);
+});
+
+scraper.on("end", function(){
+    console.log("END");
 });
 
 function processImage(image) {

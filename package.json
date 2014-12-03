@@ -12,6 +12,7 @@
     "colors": "^1.0.2",
     "filesize": "^2.0.4",
     "image-scraper": "^0.1.2",
+    "minimist": "^1.1.0",
     "request": "^2.45.0",
     "sprintf-js": "^1.0.2"
   },
