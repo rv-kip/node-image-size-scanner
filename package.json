@@ -1,7 +1,7 @@
 {
   "name": "node-image-size-scanner",
-  "version": "0.0.9",
-  "description": "For a given URL, report image file sizes and paths with optional minimum file size to report on.",
+  "version": "0.0.10",
+  "description": "For a given URL, report image file sizes and paths that exceed a threshold value.",
   "main": "image_check.js",
   "author": "Kip Gebhardt <kgebhardt23@gmail.com>",
   "license": "ISC",
@@ -9,9 +9,10 @@
     "url": "https://github.com/rv-kip/node-image-size-scanner/issues"
   },
   "dependencies": {
+    "async": "^0.9.0",
     "colors": "^1.0.2",
     "filesize": "^2.0.4",
-    "image-scraper": "^0.1.2",
+    "image-scraper": "git://github.com/rv-kip/node-image-scraper.git#v0.1.2.1",
     "minimist": "^1.1.0",
     "request": "^2.45.0",
     "sprintf-js": "^1.0.2"
