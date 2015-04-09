@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 // Get image sizes for images on a given url
-var Scraper = require('image-scraper'),
-    request = require('request'),
-    async = require('async'),
-    Filesize = require('filesize'),
-    colors = require('colors/safe'),
-    sprintf=require("sprintf-js").sprintf,
-    argv = require('minimist')(process.argv.slice(2));
+var request         = require('request'),
+    async           = require('async'),
+    $               = require('cheerio'),
+    Filesize        = require('filesize'),
+    colors          = require('colors/safe'),
+    sprintf         = require("sprintf-js").sprintf,
+    argv            = require('minimist')(process.argv.slice(2));
 
 var usage = "Usage: image_check -u URL [-b MIN_BYTES_TO_ALERT_ON] [-j|-json]\n" +
             "Ex: " + colors.grey("image_check -u http://www.google.com -b 1k");
@@ -37,51 +37,73 @@ if (!url.match(/http/i) && !url.match(/https/i)) {
     url = "http://" + url;
 }
 
-var scraper = new Scraper (url);
-
 var asyncTasks = [];
-scraper.on("image", function(image){
-    asyncTasks.push(function(callback) {
-        processImage(image, callback);
-    });
-});
 
-scraper.on("end", function(){
-    async.parallel(asyncTasks, function(){
-        // Sort the output by bytes descending
-        json.images.sort(function(a, b){
-            return (b.bytes - a.bytes);
-        });
+request(url, function (err, response, body){
+    if (err) {
+        console.error(err);
+        return;
+    }
 
-        if (json_output) {
-            console.log(json);
-        } else {
-            if (max_size_bytes) {
-                console.log(colors.bold("Image files >" + Filesize(max_size_bytes) + " (" + max_size_bytes + " bytes)"));
-            }
+    var parsedHTML = $.load(body);
+    // console.log(parsedHTML);
 
-            if (json.images.length > 0) {
-                json.images.forEach(function(image_data){
-                    var image_url = image_data.image_url,
-                        file_size_bytes = image_data.bytes,
-                        file_size = Filesize(file_size_bytes),
-                        formatted_file_size = sprintf("%11s", file_size);
+    var imageURLs = [];
+    parsedHTML('img').map(function(i, link) {
+        var href = $(link).attr('src');
 
-                    // Images 3x the max size get highlighted in red
-                    var formatted_output = colors.yellow(formatted_file_size);
-                    if (file_size_bytes > (3 * max_size_bytes)) {
-                        formatted_output = colors.red(formatted_file_size);
-                    }
-                    formatted_output += " " + colors.cyan(image_url);
-
-                    console.log(formatted_output);
-                });
-            } else {
-                console.log("No images found.");
-            }
+        if (!href.match(/\/\//)){
+            href = url + href;
         }
+
+        imageURLs.push(href);
     });
+
+    console.log(imageURLs);
+
 });
+// scraper.on("image", function(image){
+//     asyncTasks.push(function(callback) {
+//         processImage(image, callback);
+//     });
+// });
+
+// scraper.on("end", function(){
+//     async.parallel(asyncTasks, function(){
+//         // Sort the output by bytes descending
+//         json.images.sort(function(a, b){
+//             return (b.bytes - a.bytes);
+//         });
+
+//         if (json_output) {
+//             console.log(json);
+//         } else {
+//             if (max_size_bytes) {
+//                 console.log(colors.bold("Image files >" + Filesize(max_size_bytes) + " (" + max_size_bytes + " bytes)"));
+//             }
+
+//             if (json.images.length > 0) {
+//                 json.images.forEach(function(image_data){
+//                     var image_url = image_data.image_url,
+//                         file_size_bytes = image_data.bytes,
+//                         file_size = Filesize(file_size_bytes),
+//                         formatted_file_size = sprintf("%11s", file_size);
+
+//                     // Images 3x the max size get highlighted in red
+//                     var formatted_output = colors.yellow(formatted_file_size);
+//                     if (file_size_bytes > (3 * max_size_bytes)) {
+//                         formatted_output = colors.red(formatted_file_size);
+//                     }
+//                     formatted_output += " " + colors.cyan(image_url);
+
+//                     console.log(formatted_output);
+//                 });
+//             } else {
+//                 console.log("No images found.");
+//             }
+//         }
+//     });
+// });
 
 var formatted_output_arr = {},
     json = {
@@ -109,4 +131,4 @@ function processImage(image, callback) {
         callback();
     });
 }
-scraper.scrape();
+// scraper.scrape();
