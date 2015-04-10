@@ -1,7 +1,7 @@
 {
   "name": "node-image-size-scanner",
-  "version": "0.1.0",
-  "description": "For a given URL, report image file sizes and paths that exceed a threshold value.",
+  "version": "0.1.1",
+  "description": "For a given URL, report image file sizes and paths that exceed a threshold value. Follows redirects.",
   "main": "image_check.js",
   "author": "Kip Gebhardt <kgebhardt23@gmail.com>",
   "license": "ISC",
@@ -23,9 +23,22 @@
   },
   "homepage": "https://github.com/rv-kip/node-image-size-scanner",
   "keywords": [
+    "image",
+    "dimensions",
+    "size",
+    "bytes",
+    "web",
+    "website",
+    "jpg",
+    "jpeg",
+    "png",
     "filesize",
     "scanner",
-    "utility"
+    "utility",
+    "cli",
+    "tool",
+    "monitor",
+    "monitoring"
   ],
   "preferGlobal": true,
   "bin": {
