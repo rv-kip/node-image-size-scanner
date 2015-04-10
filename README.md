@@ -14,7 +14,7 @@ Ex: image_check -u http://www.google.com -b 1k
 ### Formatted Output ###
 ```
 $ image_check -u http://www.google.com -b 1k
-Image files > 1.00 kB (1000 bytes)
+Image files >1.00 kB (1000 bytes)
     8.23 kB https://www.google.com/images/srpr/logo9w.png
     1.83 kB https://www.google.com/images/icons/product/chrome-48.png
 ```
@@ -22,10 +22,14 @@ Image files > 1.00 kB (1000 bytes)
 ```
 $ image_check -u https://www.google.com -b 1k -j
 { url: 'https://www.google.com',
-  byte_threshold: 1000,
+  byte_threshold: '1k',
   images:
    [ { image_url: 'https://www.google.com/images/srpr/logo9w.png',
        bytes: 8228 },
      { image_url: 'https://www.google.com/images/icons/product/chrome-48.png',
        bytes: 1834 } ] }
 ```
+
+## Release Notes
+### 0.1.0
+* Switched to `request` module to gain redirect following
