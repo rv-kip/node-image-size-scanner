@@ -1,6 +1,6 @@
 {
   "name": "node-image-size-scanner",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "For a given URL, report image file sizes and paths that exceed a threshold value.",
   "main": "image_check.js",
   "author": "Kip Gebhardt <kgebhardt23@gmail.com>",
