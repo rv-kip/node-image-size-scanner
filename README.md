@@ -1,6 +1,6 @@
 node-image-size-scanner
 =======================
-For a given URL, report image file sizes and paths sorted by decreasing size. Optionally you may specify a minimum file size to report on. Formatted output or json output.
+For a given URL, report image file sizes and paths sorted by decreasing size. Optionally you may specify a minimum file size to report on. Formatted output or json output. Follows redirects.
 
 ## Installation ##
 `npm install -g node-image-size-scanner`
