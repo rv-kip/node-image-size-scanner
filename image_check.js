@@ -36,7 +36,7 @@ if (isNaN(byte_threshold)){
     process.exit(1);
 }
 
-if (!url.match(/http/i) && !url.match(/https/i)) {
+if (!url.match(/https?/i)) {
     url = "http://" + url;
 }
 
@@ -49,12 +49,7 @@ var options = {
 var scanner = new NodeImageSizeScanner(options);
 
 function main() {
-    console.log("in main", url, byte_threshold);
-
-    // scanner.checktest(function(err, json){
     scanner.check({}, function(err, json){
-        console.log("start", url, byte_threshold);
-
         if (err) {
             console.error(err);
             process.exit(1);
@@ -75,7 +70,8 @@ function main() {
             if (json.images.length > 0) {
                 json.images.forEach(function(image_data){
                     var image_url = image_data.image_url,
-                        file_size_bytes = image_data.bytes,
+                        file_size_bytes = image_data.bytes || 0,
+                        img_error = image_data.error,
                         file_size = Filesize(file_size_bytes),
                         formatted_file_size = sprintf("%11s", file_size);
 
@@ -86,7 +82,10 @@ function main() {
                     }
                     formatted_output += " " + colors.cyan(image_url);
 
-                    console.log("DONE!!!");
+                    if (img_error) {
+                        formatted_output += " " + colors.red(img_error);
+                    }
+
                     console.log(formatted_output);
                 });
             } else {
@@ -98,7 +97,5 @@ function main() {
 
 if (require.main === module)
 {
-    console.log("main start", url, byte_threshold);
-
     main();
 }
