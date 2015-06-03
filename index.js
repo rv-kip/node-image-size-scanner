@@ -1,0 +1,1 @@
+var NodeImageSizeScanner = module.exports = require('./lib/NodeImageSizeScanner');

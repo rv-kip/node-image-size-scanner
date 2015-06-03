@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 // Get image sizes for images on a given url
-var request         = require('request'),
-    async           = require('async'),
-    cheerio         = require('cheerio'),
-    Filesize        = require('filesize'),
-    colors          = require('colors/safe'),
-    sprintf         = require("sprintf-js").sprintf,
-    argv            = require('minimist')(process.argv.slice(2));
+var colors                  = require('colors/safe'),
+    async                   = require('async'),
+    NodeImageSizeScanner    = require('./index'),
+    Filesize                = require('filesize'),
+    sprintf                 = require("sprintf-js").sprintf,
+    argv                    = require('minimist')(process.argv.slice(2));
 
 var usage = "Usage: image_check -u URL [-b MIN_BYTES_TO_ALERT_ON] [-j|-json]\n" +
             "Ex: " + colors.grey("image_check -u http://www.google.com -b 1k");
@@ -17,22 +16,22 @@ if (!argv.u) {
 }
 
 var url = argv.u,
-    max_size_bytes = argv.b || 0,
+    byte_threshold = argv.b || 0,
     json_output = argv.j || argv.json || false,
     formatted_output_arr = {},
     json = {
         url             : url,
-        byte_threshold  : max_size_bytes,
+        byte_threshold  : byte_threshold,
         images          : []
     };
 
-if (typeof(max_size_bytes) === "string" && max_size_bytes.match(/k/i)){
-    max_size_bytes = max_size_bytes.replace(/k/i, "");
-    max_size_bytes = +max_size_bytes * 1000;
+if (typeof(byte_threshold) === "string" && byte_threshold.match(/k/i)){
+    byte_threshold = byte_threshold.replace(/k/i, "");
+    byte_threshold = +byte_threshold * 1000;
 }
 
-if (isNaN(max_size_bytes)){
-    console.log("Invalid number of bytes: " + max_size_bytes + "\n");
+if (isNaN(byte_threshold)){
+    console.log("Invalid number of bytes: " + byte_threshold + "\n");
     console.log(usage);
     process.exit(1);
 }
@@ -41,43 +40,36 @@ if (!url.match(/http/i) && !url.match(/https/i)) {
     url = "http://" + url;
 }
 
-request(url, function (err, response, body){
-    if (err) {
-        console.error(err);
-        return;
-    }
+var options = {
+    url             : url,
+    byte_threshold  : byte_threshold,
+    log_level       : "debug"
+};
 
-    var $ = cheerio.load(body),
-        images = $('img').toArray(),
-        asyncTasks = [];
+var scanner = new NodeImageSizeScanner(options);
 
+function main() {
+    console.log("in main", url, byte_threshold);
 
-    // Process each image
-    images.forEach(function(image){
-        var image_url = image.attribs.src;
-        if (/^\/\//.test(image_url)) {
-            image_url = 'http:' + image_url;
+    // scanner.checktest(function(err, json){
+    scanner.check({}, function(err, json){
+        console.log("start", url, byte_threshold);
+
+        if (err) {
+            console.error(err);
+            process.exit(1);
         }
-        if (!/^https?:\/\//.test(image_url)) {
-            image_url = url + image_url;
-        }
-        asyncTasks.push(function(callback) {
-            processImage(image_url, callback);
-        });
-    });
 
-    // Done
-    async.parallel(asyncTasks, function(){
-        // Sort the output by bytes descending
-        json.images.sort(function(a, b){
-            return (b.bytes - a.bytes);
-        });
+        if (!json) {
+            console.error("No response");
+            process.exit(1);
+        }
 
         if (json_output) {
             console.log(json);
         } else {
-            if (max_size_bytes) {
-                console.log(colors.bold("Image files >" + Filesize(max_size_bytes) + " (" + max_size_bytes + " bytes)"));
+            if (byte_threshold) {
+                console.log(colors.bold("Image files >" + Filesize(byte_threshold) + " (" + byte_threshold + " bytes)"));
             }
 
             if (json.images.length > 0) {
@@ -89,11 +81,12 @@ request(url, function (err, response, body){
 
                     // Images 3x the max size get highlighted in red
                     var formatted_output = colors.yellow(formatted_file_size);
-                    if (file_size_bytes > (3 * max_size_bytes)) {
+                    if (file_size_bytes > (3 * byte_threshold)) {
                         formatted_output = colors.red(formatted_file_size);
                     }
                     formatted_output += " " + colors.cyan(image_url);
 
+                    console.log("DONE!!!");
                     console.log(formatted_output);
                 });
             } else {
@@ -101,24 +94,11 @@ request(url, function (err, response, body){
             }
         }
     });
-});
+}
 
-function processImage(image_url, callback) {
-    request.head(image_url, function(err, res){
-        if (err) {
-            return console.error(colors.red("Error"), err);
-        }
+if (require.main === module)
+{
+    console.log("main start", url, byte_threshold);
 
-        if (res && res.headers['content-length']){
-            var file_size_bytes = +(res.headers['content-length']);
-            if (file_size_bytes > max_size_bytes) {
-                var data = {
-                    image_url: image_url,
-                    bytes: file_size_bytes
-                };
-                json.images.push(data);
-            }
-        }
-        callback();
-    });
+    main();
 }
