@@ -1,10 +1,13 @@
 {
   "name": "node-image-size-scanner",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "For a given URL, report image file sizes and paths that exceed a threshold value. Follows redirects.",
   "main": "index.js",
   "author": "Kip Gebhardt <kgebhardt23@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha test/*.js"
+  },
   "bugs": {
     "url": "https://github.com/rv-kip/node-image-size-scanner/issues"
   },
@@ -18,6 +21,11 @@
     "request": "^2.57.0",
     "sprintf-js": "^1.0.2",
     "url-parse": "^1.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.4",
+    "must": "^0.12.0",
+    "nock": "^2.3.0"
   },
   "repository": {
     "type": "git",
@@ -40,9 +48,9 @@
     "cli",
     "tool",
     "monitor",
-    "monitoring"
+    "monitoring",
+    "missing images"
   ],
-  "preferGlobal": true,
   "bin": {
     "image_check": "./image_check.js"
   }
