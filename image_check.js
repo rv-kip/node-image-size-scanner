@@ -3,11 +3,11 @@
 var colors                  = require('colors/safe'),
     NodeImageSizeScanner    = require('./index'),
     Filesize                = require('filesize'),
-    sprintf                 = require("sprintf-js").sprintf,
+    sprintf                 = require('sprintf-js').sprintf,
     argv                    = require('minimist')(process.argv.slice(2));
 
-var usage = "Usage: image_check -u URL [-b MIN_BYTES_TO_ALERT_ON] [-j|-json]\n" +
-            "Ex: " + colors.grey("image_check -u http://www.google.com -b 1k");
+var usage = 'Usage: image_check -u URL [-b MIN_BYTES_TO_ALERT_ON] [-j|-json]\n' +
+            'Ex: ' + colors.grey('image_check -u http://www.google.com -b 1k');
 
 if (!argv.u) {
     console.log(usage);
@@ -19,13 +19,17 @@ var url = argv.u,
     json_output = argv.j || argv.json || false,
     formatted_output_arr = {};
 
+if (url === true) {
+    url = null;
+}
+
 if (typeof(byte_threshold) === "string" && byte_threshold.match(/k/i)){
     byte_threshold = byte_threshold.replace(/k/i, "");
     byte_threshold = +byte_threshold * 1000;
 }
 
 if (isNaN(byte_threshold)){
-    console.log("Invalid number of bytes: " + byte_threshold + "\n");
+    console.log('Invalid number of bytes: ' + byte_threshold + "\n");
     console.log(usage);
     process.exit(1);
 }
@@ -33,7 +37,7 @@ if (isNaN(byte_threshold)){
 var options = {
     url             : url,
     byte_threshold  : byte_threshold,
-    log_level       : "error"
+    log_level       : 'error'
 };
 
 var scanner = new NodeImageSizeScanner(options);
@@ -43,7 +47,7 @@ function main() {
     scanner.check(runtime_options)
     .then(function(json) {
         if (!json) {
-            console.error("No response");
+            console.error('No response');
             process.exit(1);
         }
 
@@ -51,9 +55,10 @@ function main() {
             console.log(JSON.stringify(json));
         } else {
             if (byte_threshold) {
-                console.log(colors.bold("Image files >" + Filesize(byte_threshold) + " (" + byte_threshold + " bytes)"));
+                console.log(colors.bold('Image files >' + Filesize(byte_threshold) + ' (' + byte_threshold + ' bytes)'));
             }
 
+            // Pretty pretty output
             if (json.images.length > 0) {
                 json.images.forEach(function(image_data){
                     var image_url = image_data.image_url,
@@ -67,16 +72,16 @@ function main() {
                     if (file_size_bytes > (3 * byte_threshold)) {
                         formatted_output = colors.red(formatted_file_size);
                     }
-                    formatted_output += " " + colors.cyan(image_url);
+                    formatted_output += ' ' + colors.cyan(image_url);
 
                     if (img_error) {
-                        formatted_output += " " + colors.red(img_error);
+                        formatted_output += ' ' + colors.red(img_error);
                     }
 
                     console.log(formatted_output);
                 });
             } else {
-                console.log("No images found at " + url);
+                console.log('No images found at ' + url);
             }
         }
     })
@@ -87,7 +92,6 @@ function main() {
         }
     })
     .done();
-
 }
 
 if (require.main === module)

@@ -3,9 +3,9 @@ var demand                  = require('must'),
     NodeImageSizeScanner    = require('../'),
     nock                    = require('nock'),
     fs                      = require('fs'),
-    util                    = require('util'),
     exec                    = require('child_process').exec;
 
+// Set up mock server with an html page, one good image and one 404
 var scope = nock('http://www.example.com')
                 .get('/page1.html')
                 .times(10)
@@ -27,7 +27,7 @@ function getFilesizeInBytes(filename) {
 }
 
 var options = {
-    log_level       : 'debug'
+    log_level : 'debug'
 };
 
 var scanner = new NodeImageSizeScanner(options);
