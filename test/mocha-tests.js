@@ -2,20 +2,21 @@ var demand                  = require('must'),
     assert                  = require('assert'),
     NodeImageSizeScanner    = require('../'),
     nock                    = require('nock'),
-    fs                      = require('fs');
-
+    fs                      = require('fs'),
+    util                    = require('util'),
+    exec                    = require('child_process').exec;
 
 var scope = nock('http://www.example.com')
                 .get('/page1.html')
-                .times(4)
+                .times(10)
                 .replyWithFile(200, __dirname + '/nock_replies/page1.html')
                 .intercept('/images/alfa_romeo.jpg', 'HEAD')
-                .times(4)
+                .times(10)
                 .reply(200, 'body',{
                     'Content-Length' : getFilesizeInBytes(__dirname + '/nock_replies/alfa_romeo.jpg')
                 })
                 .intercept('/images/not_found.jpg', 'HEAD')
-                .times(4)
+                .times(10)
                 .reply(404)
 ;
 
@@ -113,17 +114,22 @@ describe("Node Image Size Scanner", function() {
         });
     });
 
-    it("Should work the same way using a command line operation", function(finished){
+    it("Command line script should function as module does", function(finished){
         var options = {
-            url             : 'http://www.example.com/page1.html',
-            byte_threshold  : '10k'
+            url             : 'http://www.google.com',
         };
 
-        var command = '../image_check.js -u' + options.url + '-b' + options.byte_threshold;
-        finished();
+        // Define path, escaping spaces if needed
+        var path = __dirname + '/../image_check.js';
+            command =  path.replace(/ /g, '\\ ') + ' -u ' + options.url + ' -json';
 
+        var child = exec(command, function (error, stdout, stderr) {
+            var stdout_obj = JSON.parse(stdout.trim());
+
+            stdout_obj.must.be.an.object();
+            stdout_obj.must.have.property('images');
+            stdout_obj.images.must.be.an.array();
+            finished();
+        });
     });
-
-
-
 });

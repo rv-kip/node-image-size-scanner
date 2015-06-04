@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 // Get image sizes for images on a given url
 var colors                  = require('colors/safe'),
-    async                   = require('async'),
     NodeImageSizeScanner    = require('./index'),
     Filesize                = require('filesize'),
     sprintf                 = require("sprintf-js").sprintf,
@@ -34,7 +33,7 @@ if (isNaN(byte_threshold)){
 var options = {
     url             : url,
     byte_threshold  : byte_threshold,
-    log_level       : "debug"
+    log_level       : "error"
 };
 
 var scanner = new NodeImageSizeScanner(options);
@@ -52,7 +51,7 @@ function main() {
         }
 
         if (json_output) {
-            console.log(json);
+            console.log(JSON.stringify(json));
         } else {
             if (byte_threshold) {
                 console.log(colors.bold("Image files >" + Filesize(byte_threshold) + " (" + byte_threshold + " bytes)"));
