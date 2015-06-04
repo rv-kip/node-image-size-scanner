@@ -39,12 +39,9 @@ var options = {
 var scanner = new NodeImageSizeScanner(options);
 
 function main() {
-    scanner.check({}, function(err, json){
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-
+    runtime_options = {};
+    scanner.check(runtime_options)
+    .then(function(json) {
         if (!json) {
             console.error("No response");
             process.exit(1);
@@ -82,7 +79,15 @@ function main() {
                 console.log("No images found at " + url);
             }
         }
-    });
+    })
+    .catch (function(err) {
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+    })
+    .done();
+
 }
 
 if (require.main === module)

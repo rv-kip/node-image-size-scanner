@@ -37,12 +37,12 @@ describe("Node Image Size Scanner", function() {
         scanner.must.be.an.instanceof(NodeImageSizeScanner);
     });
 
-    it("Should check a (mock) page and find the expected (mock) images", function(finished){
+    it("Should check a (mock) page and find the expected (mock) images (async)", function(finished){
         var runtime_options = {
             url : 'http://www.example.com/page1.html'
         };
 
-        scanner.check(runtime_options, function(err, json){
+        scanner.checkAsync(runtime_options, function(err, json){
 
             demand(err).be.null();
 
@@ -71,13 +71,49 @@ describe("Node Image Size Scanner", function() {
         });
     });
 
+    it("Should check a (mock) page and find the expected (mock) images (promises)", function (finished){
+        var runtime_options = {
+            url : 'http://www.example.com/page1.html'
+        };
+
+        scanner.check(runtime_options)
+        .then(function(json) {
+            json.must.have.property('url');
+
+            json.must.have.property('byte_threshold', scanner.byte_threshold);
+
+            json.must.have.property('images');
+            json.images.must.be.an.array();
+            json.images.must.have.length(3);
+
+            json.images[0].must.not.have.property('error');
+            json.images[0].must.have.property('bytes');
+            json.images[0].bytes.must.be.at.least(12000);
+
+            json.images[1].must.have.property('error');
+            json.images[1].error.must.contain('404');
+            json.images[1].must.have.property('bytes');
+            json.images[1].bytes.must.be(-1);
+
+            json.images[2].must.have.property('error');
+            json.images[2].must.have.property('bytes');
+            json.images[2].bytes.must.be(-1);
+
+            finished();
+        })
+        .catch(function(err){
+            demand(err).be.null();
+        })
+        .done();
+    });
+
     it("Should not find images under the byte_threshold", function(finished){
         var runtime_options = {
             url             : 'http://www.example.com/page1.html',
             byte_threshold  : 100000
         };
 
-        scanner.check(runtime_options, function(err, json){
+        scanner.checkAsync(runtime_options, function(err, json){
 
             demand(err).be.null();
 
@@ -105,7 +141,7 @@ describe("Node Image Size Scanner", function() {
 
         var scanner = new NodeImageSizeScanner(options);
 
-        scanner.check({}, function(err, json){
+        scanner.checkAsync({}, function(err, json){
 
             demand(err).be.null();
             scanner.byte_threshold.must.be(50000);

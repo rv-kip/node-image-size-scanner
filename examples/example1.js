@@ -12,7 +12,7 @@ var runtime_options = {
     byte_threshold  : '5k',
 };
 
-scanner.check(runtime_options, function(err, json){
+scanner.checkAsync(runtime_options, function(err, json){
     if (err) {
         return console.error(err);
     }
