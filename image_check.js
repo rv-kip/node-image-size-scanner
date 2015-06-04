@@ -18,12 +18,7 @@ if (!argv.u) {
 var url = argv.u,
     byte_threshold = argv.b || 0,
     json_output = argv.j || argv.json || false,
-    formatted_output_arr = {},
-    json = {
-        url             : url,
-        byte_threshold  : byte_threshold,
-        images          : []
-    };
+    formatted_output_arr = {};
 
 if (typeof(byte_threshold) === "string" && byte_threshold.match(/k/i)){
     byte_threshold = byte_threshold.replace(/k/i, "");
@@ -34,10 +29,6 @@ if (isNaN(byte_threshold)){
     console.log("Invalid number of bytes: " + byte_threshold + "\n");
     console.log(usage);
     process.exit(1);
-}
-
-if (!url.match(/https?/i)) {
-    url = "http://" + url;
 }
 
 var options = {

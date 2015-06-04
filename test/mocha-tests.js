@@ -26,7 +26,7 @@ function getFilesizeInBytes(filename) {
 }
 
 var options = {
-    log_level       : 'error'
+    log_level       : 'debug'
 };
 
 var scanner = new NodeImageSizeScanner(options);
@@ -94,6 +94,36 @@ describe("Node Image Size Scanner", function() {
             finished();
         });
     });
+
+
+    it("Should convert a byte_threshold of '50k' to an integer of 50000", function(finished){
+        var options = {
+            url             : 'http://www.example.com/page1.html',
+            byte_threshold  : '50k'
+        };
+
+        var scanner = new NodeImageSizeScanner(options);
+
+        scanner.check({}, function(err, json){
+
+            demand(err).be.null();
+            scanner.byte_threshold.must.be(50000);
+
+            finished();
+        });
+    });
+
+    it("Should work the same way using a command line operation", function(finished){
+        var options = {
+            url             : 'http://www.example.com/page1.html',
+            byte_threshold  : '10k'
+        };
+
+        var command = '../image_check.js -u' + options.url + '-b' + options.byte_threshold;
+        finished();
+
+    });
+
 
 
 });
