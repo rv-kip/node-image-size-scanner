@@ -94,6 +94,12 @@ scanner.checkAsync(runtime_options, function(err, json){
 
 
 ## Release Notes
+### 1.0.3
+* 1k now converts to 1024 bytes
+
+### 1.0.2
+* json output is now `url` instead of redudant `image_url`
+
 ### 1.0.0
 * Converted to being a true module using Promises
 * Added support for reporting 404 errors for missing images
