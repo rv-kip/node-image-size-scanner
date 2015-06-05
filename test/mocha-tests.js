@@ -133,7 +133,7 @@ describe("Node Image Size Scanner", function() {
     });
 
 
-    it("Should convert a byte_threshold of '50k' to an integer of 50000", function(finished){
+    it("Should convert a byte_threshold of '50k' to an integer equal to 51200", function(finished){
         var options = {
             url             : 'http://www.example.com/page1.html',
             byte_threshold  : '50k'

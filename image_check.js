@@ -25,7 +25,7 @@ if (url === true) {
 
 if (typeof(byte_threshold) === "string" && byte_threshold.match(/k/i)){
     byte_threshold = byte_threshold.replace(/k/i, "");
-    byte_threshold = +byte_threshold * 1000;
+    byte_threshold = +byte_threshold * 1024;
 }
 
 if (isNaN(byte_threshold)){
