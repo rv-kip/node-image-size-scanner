@@ -47,7 +47,7 @@ See the `examples` directory.
 var NodeImageSizeScanner = require('../index');
 
 var options = {
-    log_level : 'err' // Errors only, or info, debug, off
+    log_level : 'err' // err, info, debug, off
 };
 
 var scanner = new NodeImageSizeScanner(options);
@@ -70,7 +70,7 @@ catch(function(err){
 var NodeImageSizeScanner = require('../index');
 
 var options = {
-    log_level : 'err' // Errors only, or info, debug, off
+    log_level : 'err' // err, info, debug, off
 };
 
 var scanner = new NodeImageSizeScanner(options);
