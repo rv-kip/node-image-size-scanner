@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/rv-kip/node-image-size-scanner.svg?branch=master)](https://travis-ci.org/rv-kip/node-image-size-scanner)
+[![Dependencies](https://david-dm.org/rv-kip/node-image-size-scanner.svg)](https://david-dm.org/rv-kip/node-image-size-scanner)
+
 node-image-size-scanner
 =======================
 For a given URL, report image file sizes and paths sorted by decreasing size. Optionally specify byte threshold value to report on. Formatted output or json output. Follows redirects. Reports missing or unreachable images
