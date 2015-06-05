@@ -30,11 +30,11 @@ $ image_check -u https://www.google.com -b 1k -j | json
   "byte_threshold": 1000,
   "images": [
     {
-      "image_url": "https://www.google.com/images/srpr/logo9w.png",
+      "url": "https://www.google.com/images/srpr/logo9w.png",
       "bytes": 8228
     },
     {
-      "image_url": "https://www.google.com/images/icons/product/chrome-48.png",
+      "url": "https://www.google.com/images/icons/product/chrome-48.png",
       "bytes": 1834
     }
   ]
