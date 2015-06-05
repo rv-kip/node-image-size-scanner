@@ -144,7 +144,7 @@ describe("Node Image Size Scanner", function() {
         scanner.checkAsync({}, function(err, json){
 
             demand(err).be.null();
-            scanner.byte_threshold.must.be(50000);
+            scanner.byte_threshold.must.be(51200);
 
             finished();
         });
