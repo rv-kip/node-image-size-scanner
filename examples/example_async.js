@@ -1,7 +1,7 @@
 var NodeImageSizeScanner = require('../index');
 
 var options = {
-    log_level : 'err' // Errors only, or info, debug, off
+    log_level : 'err' // err, info, debug, off
 };
 
 var scanner = new NodeImageSizeScanner(options);

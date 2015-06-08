@@ -61,7 +61,7 @@ function main() {
             // Pretty pretty output
             if (json.images.length > 0) {
                 json.images.forEach(function(image_data){
-                    var image_url = image_data.image_url,
+                    var image_url = image_data.url,
                         file_size_bytes = image_data.bytes || 0,
                         img_error = image_data.error,
                         file_size = Filesize(file_size_bytes),
