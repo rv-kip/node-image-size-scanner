@@ -6,7 +6,7 @@ var colors                  = require('colors/safe'),
     sprintf                 = require('sprintf-js').sprintf,
     argv                    = require('minimist')(process.argv.slice(2));
 
-var usage = 'Usage: image_check -u URL [-b MIN_BYTES_TO_ALERT_ON] [-j|-json]\n' +
+var usage = 'Usage: image_check -u URL [-b MIN_BYTES_TO_ALERT_ON] [-j|-json] [-i|-ignore-errors]\n' +
             'Ex: ' + colors.grey('image_check -u http://www.google.com -b 1k');
 
 if (!argv.u) {
@@ -16,6 +16,7 @@ if (!argv.u) {
 
 var url = argv.u,
     byte_threshold = argv.b || 0,
+    ignore_image_errors = argv.i || false,
     json_output = argv.j || argv.json || false,
     formatted_output_arr = {};
 
@@ -35,9 +36,10 @@ if (isNaN(byte_threshold)){
 }
 
 var options = {
-    url             : url,
-    byte_threshold  : byte_threshold,
-    log_level       : 'error'
+    url                 : url,
+    byte_threshold      : byte_threshold,
+    log_level           : 'error',
+    ignore_image_errors : ignore_image_errors
 };
 
 var scanner = new NodeImageSizeScanner(options);

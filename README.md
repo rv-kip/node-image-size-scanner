@@ -12,7 +12,7 @@ For a given URL, report image file sizes and paths sorted by decreasing size. Op
 ### Command Line ###
 ```
 $ image_check
-Usage: image_check -u URL [-b MIN_BYTES_TO_ALERT_ON] [-j|-json]
+Usage: image_check -u URL [-b MIN_BYTES_TO_ALERT_ON] [-j|-json] [-i|-ignore-errors]
 Ex: image_check -u http://www.google.com -b 1k
 ```
 ### Formatted Output ###
@@ -42,6 +42,9 @@ $ image_check -u https://www.google.com -b 1k -j | json
 ```
 ### Module ###
 See the `examples` directory.
+#### params
+* `byte_threshold`: Integer. The number of bytes that an image has to exceed in order to be reported
+* `ignore_image_errors`: Boolean. Do not report images that cannot be sized. (404s, etc)
 #### Promises Example
 ```javascript
 var NodeImageSizeScanner = require('../index');
@@ -88,11 +91,14 @@ scanner.checkAsync(runtime_options, function(err, json){
 });
 ```
 
-
 ## Tests
 `npm test`
 
 ## Release Notes
+
+### 1.0.7
+* added `ignore_image_errors` param to skip reporting of images that can't be sized
+
 ### 1.0.3
 * 1k now converts to 1024 bytes
 

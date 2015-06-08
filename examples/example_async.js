@@ -7,8 +7,9 @@ var options = {
 var scanner = new NodeImageSizeScanner(options);
 
 var runtime_options = {
-    url             : 'http://www.nyt.com',
-    byte_threshold  : '5k',
+    url                 : 'http://www.nyt.com',
+    byte_threshold      : '5k',
+    ignore_image_errors : false
 };
 
 scanner.checkAsync(runtime_options, function(err, json){

@@ -107,6 +107,34 @@ describe("Node Image Size Scanner", function() {
         .done();
     });
 
+    it("Should not report on a 404 image if 'ignore_image_errors' is set ", function (finished){
+        var runtime_options = {
+            url                 : 'http://www.example.com/page1.html',
+            ignore_image_errors : true
+        };
+
+        scanner.check(runtime_options)
+        .then(function(json) {
+            json.must.have.property('url');
+
+            json.must.have.property('byte_threshold', scanner.byte_threshold);
+
+            json.must.have.property('images');
+            json.images.must.be.an.array();
+            json.images.must.have.length(1);
+
+            json.images[0].must.not.have.property('error');
+            json.images[0].must.have.property('bytes');
+            json.images[0].bytes.must.be.at.least(12000);
+
+            finished();
+        })
+        .catch(function(err){
+            demand(err).be.null();
+        })
+        .done();
+    });
+
     it("Should not find images under the byte_threshold", function(finished){
         var runtime_options = {
             url             : 'http://www.example.com/page1.html',
