@@ -60,6 +60,7 @@ describe("Node Image Size Scanner", function() {
 
             json.images[1].must.have.property('error');
             json.images[1].error.must.contain('404');
+            json.images[1].statusCode.must.be(404);
             json.images[1].must.have.property('bytes');
             json.images[1].bytes.must.be(-1);
 
