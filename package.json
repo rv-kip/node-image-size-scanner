@@ -1,6 +1,6 @@
 {
   "name": "node-image-size-scanner",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "For a given URL, report image file sizes and paths that exceed a threshold value as well as non-200 status codes. Follows redirects.",
   "main": "index.js",
   "author": "Kip Gebhardt <kgebhardt23@gmail.com>",
