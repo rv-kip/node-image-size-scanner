@@ -17,11 +17,14 @@ Ex: image_check -u http://www.google.com -b 1k
 ```
 ### Formatted Output ###
 ```
-$ image_check -u http://www.google.com -b 1k
-Image files >1.00 kB (1024 bytes)
-    8.23 kB https://www.google.com/images/srpr/logo9w.png
-    1.83 kB https://www.google.com/images/icons/product/chrome-48.png
+$ image_check -u http://ww2.kqed.org/news/ -b 1000K
+Image files >1000 KB (1024000 bytes)
+    3.64 MB http://i1.wp.com/ww2.kqed.org/news/wp-content/uploads/sites/10/2016/02/IMG_0057.jpg?resize=1920%2C1440
+    2.74 MB http://u.s.kqed.net/2016/02/16/SchmitzSJSUstatue1920.jpg
+    2.55 MB http://i2.wp.com/ww2.kqed.org/news/wp-content/uploads/sites/10/2016/02/dirt_CPUC-2.jpg?resize=1920%2C1282
+    1.31 MB http://u.s.kqed.net/2016/02/15/GettyImages510369410Syriaattackfeb15.jpg
 ```
+
 ### JSON output
 ```
 $ image_check -u https://www.google.com -b 1k -j | json
