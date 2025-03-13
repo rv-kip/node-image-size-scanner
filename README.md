@@ -99,6 +99,13 @@ scanner.checkAsync(runtime_options, function(err, json){
 
 ## Release Notes
 
+### 1.1.0
+* Replaced deprecated `request` module with modern `node-fetch`
+* Updated all dependencies to latest versions
+* Fixed security vulnerabilities
+* Fixed variable declaration bug in image_check.js
+* Added Node.js engine requirement (>=14.0.0)
+
 ### 1.0.7
 * added `ignore_image_errors` param to skip reporting of images that can't be sized
 

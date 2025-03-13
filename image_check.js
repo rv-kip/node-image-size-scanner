@@ -45,7 +45,7 @@ var options = {
 var scanner = new NodeImageSizeScanner(options);
 
 function main() {
-    runtime_options = {};
+    var runtime_options = {};
     scanner.check(runtime_options)
     .then(function(json) {
         if (!json) {
